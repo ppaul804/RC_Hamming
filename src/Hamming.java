@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /**
  * Classe com métodos para a implementeção do código de Hamming onde o algoritmo
  * consiste em:
@@ -8,8 +11,14 @@
  * @author Pedro Paul
  */
 class Hamming {
-
-    public static char[] bitRed(char[] msgOri) {
+    //LEMBRAR DE SEPARAR EM MÉTODOS PEQUENOS!
+    /**
+     * Método que elege as posicões de cada um dos bits de redundância colocando o caracter "r" neles.
+     * 
+     * @param msgOri A mensagem original
+     * @return Um ArrayList com os "r" dentro
+     */
+    public static ArrayList<Character> bitRed(char[] msgOri) {
         int m = msgOri.length;// Quantidade de bits da mensagem
         int r = 0;// Quantidade de bits de redundância necessários
         boolean bitsSuf = false;// Tem bits sufucientes?
@@ -18,29 +27,41 @@ class Hamming {
             r++;
             bitsSuf = (Math.pow(2, r) >= m + r + 1);
         }// fim while
+                
         
-        char[] msgRed = new char [m + r];
-        
-        int iAux = 0;
-        int exp = 1;
+        ArrayList<Character> msgRedLis = new ArrayList<>(); 
+        int iAux = msgOri.length - 1;
+        int exp = 0;
         for (int i = 0; i < m + r; i++) {
             if (i == Math.pow(2, exp)) {
-                msgRed[i] = ' ';// Põe um expaço onde deve ficar o bit de redundância
+                msgRedLis.add(i - 1, 'r');
                 exp++;
             } else {
-                System.out.println("i\t"+i+"\tiAux\t"+iAux);
-                msgRed[i] = msgOri[iAux];
-                iAux++;
-            }// fim else
+                msgRedLis.add(msgOri[iAux]);
+                iAux--;
+            }
         }// fim for
         
-        //Mostra o vetor
-        System.out.println("msgRed\tíndice");
-        for (int i = 0; i < msgRed.length; i++) {
-            System.out.println(msgRed[i]+"\t"+i);
-        }
+        mostraArrayList(msgRedLis, "msgRedLis = \n");
         
-        return msgRed;
+        return msgRedLis;
     }// fim método bitRed
+
+    /**
+     * Exibe um ArrayList de caracteres na tela.
+     * 
+     * @param itens O ArrayList de caracteres de entrada.
+     * @param cabecalho Uma String para descrição.
+     */
+    private static void mostraArrayList(ArrayList<Character> itens, String cabecalho) {
+        System.out.print(cabecalho);// exibe o cabeçalho
+        // exibe cada elemento nos itens
+        for (Character item : itens) 
+            System.out.printf(" %c\n", item);
+    }//fim método mostraArrayList
+
+    public static ArrayList<Character> calPar(ArrayList<Character> msgRedLis) {
+        throw new UnsupportedOperationException("Calculo dos bits de paridade não desenvolvido ainda...");
+    }
 
 }// fim classe Hamming

@@ -1,6 +1,7 @@
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Client {
@@ -41,8 +42,9 @@ class Client {
 //                }
                 
                 // 1º Identificar posição dos bits de redundância
-                char[] msgRed = Hamming.bitRed(msgOri);
+                ArrayList<Character> msgRedLis = Hamming.bitRed(msgOri);
                 // 2º Calcular a paridade do bit de redundância
+                ArrayList<Character> msgRedDef = Hamming.calPar(msgRedLis);
                 // 3º Determinar o bloco formado de bits de dados e os bits de paridade
                 
                 // No receptor repetir os passos anteriores para verificar os bits
