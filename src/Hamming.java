@@ -64,31 +64,40 @@ class Hamming {
         
         //percorre a mensagem com os "r"
         for (int i = 0; i < msgRedLis.size(); i++) {
+            System.out.println("no i -> "+i);
             //se achar um "r"
             if (msgRedLis.get(i) == 'r') {
-                
-                int ctPar = 0, ctIndice = 0;
+                System.out.println("que tem "+msgRedLis.get(i));
+                int ctPar = 0, ctIndice = 0;// declaração dos contadores
                 boolean considera = false;
-                
+                System.out.println("no indice -> "+(int)(Math.pow(2, i)-1));
                 for (int indice = (int) (Math.pow(2, i)-1); indice < msgRedLis.size(); indice++) {
-                    
-                    if (ctIndice == Math.pow(2, indice)) {
+
+                    if (ctIndice < Math.pow(2, indice)) {
                         considera = true;
                         ctIndice++;
+                        System.out.println("considera "+considera);
+                        System.out.println("ctIndice"+ctIndice);
                     } else {
                         considera = false;
                         ctIndice = 0;
+                        System.out.println("considera "+considera);
+                        System.out.println("ctIndice"+ctIndice);
                     }
                     if (considera) {
                         if (msgRedLis.get(indice) == '1') {
                             ctPar++;
+                            System.out.println("ctPar "+ctPar);
                         }
                     }
                 }
+                System.out.println("resto de ctPar dividido por 2 é "+ctPar%2);
                 if (ctPar%2 == 0) {
                     msgRedLis.set(i, 'p');
+                    System.out.println("par");
                 } else {
                     msgRedLis.set(i, 'n');
+                    System.out.println("impar");
                 }
             }//fim if
         }//fim for
