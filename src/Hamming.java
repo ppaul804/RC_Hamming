@@ -63,32 +63,33 @@ class Hamming {
     public static ArrayList<Character> calPar(ArrayList<Character> msgRedLis) {
         
         //percorre a mensagem com os "r"
-        System.out.println("msgRedLis.size() - 1 -> "+(msgRedLis.size() - 1));
-        for (int i = 0; i < msgRedLis.size() - 1; i++) {
-            System.out.println("i = "+i);
+        for (int i = 0; i < msgRedLis.size(); i++) {
             //se achar um "r"
-            System.out.println("msgRedLis.get(i) == 'r' -> "+(msgRedLis.get(i) == 'r'));
             if (msgRedLis.get(i) == 'r') {
-                //percorre a mensagem pulando o resultado da potência de 2 do índice posições começando pelo próprio índice
-                System.out.println("Math.pow(2, i) = "+(Math.pow(2, i)));
-                for (int j = i; i < msgRedLis.size() - 1; j += Math.pow(2, i)) {
-                    System.out.println("j = "+j);
-                    int ct = 0;
-                    System.out.println("ct = "+ct);
-                    //se a posição tiver 1 adiciona ao contador
-                    System.out.println("msgRedLis.get(j) == '1' -> "+(msgRedLis.get(j) == '1'));
-                    if (msgRedLis.get(j) == '1') {
-                        ct++;
-                        System.out.println("ct = "+ct);
-                    }//fim if interno
-                    //se o contador for par
-                    System.out.println("ct % 2 == 0 -> "+(ct % 2 == 0));
-                    if (ct % 2 == 0) {
-                        //no lugar do "r" coloca 1
-                        msgRedLis.set(i, '1');
-                        System.out.println("msgRedLis.set(i, '1') -> "+(msgRedLis.set(i, '1')));
-                    }//fim if da paridade
-                }//fim for interno
+                
+                int ctPar = 0, ctIndice = 0;
+                boolean considera = false;
+                
+                for (int indice = (int) (Math.pow(2, i)-1); indice < msgRedLis.size(); indice++) {
+                    
+                    if (ctIndice == Math.pow(2, indice)) {
+                        considera = true;
+                        ctIndice++;
+                    } else {
+                        considera = false;
+                        ctIndice = 0;
+                    }
+                    if (considera) {
+                        if (msgRedLis.get(indice) == '1') {
+                            ctPar++;
+                        }
+                    }
+                }
+                if (ctPar%2 == 0) {
+                    msgRedLis.set(i, 'p');
+                } else {
+                    msgRedLis.set(i, 'n');
+                }
             }//fim if
         }//fim for
         
