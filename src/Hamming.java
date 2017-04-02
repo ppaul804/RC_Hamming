@@ -69,20 +69,19 @@ class Hamming {
             int ctPar = 0;// quantos numeros 1 tem?
             boolean considera = true;// considero a "casa"?
             System.out.printf("\n");
-            for (int j = (int) Math.pow(2, i); j < msgRedLis.size(); j++) {//Percorre o arraylist apartir do bit de paridade
-                for (int ctJ = 1; ctJ < Math.pow(2, i); ctJ++) {//vai de zero até 2 elevado a i
+            for (int j = (int) Math.pow(2, i-1)-1; j < msgRedLis.size(); j++) {//Percorre o arraylist apartir do bit de paridade
+                for (int ctJ = 2; ctJ < Math.pow(2, i); ctJ++) {//vai de um até 2 elevado a i
                     
                     System.out.printf("(int) Math.pow(2, %d) %d\n",i-1 , (int) Math.pow(2, i-1));
                     System.out.printf("%d == %d\n", ctJ, (int) Math.pow(2, i-1));
-//                    System.out.printf("ctJ == i %b\n", ctJ == i);
                     System.out.printf("considera %b pos %d\n", considera,j);
-                    if (ctJ+1 <= (int) Math.pow(2, i-1)) {//se o contador for menor ou igual
+                    if (ctJ == (int) Math.pow(2, i-1)) {//se o contador for menor ou igual
+                        considera = !considera;//muda a consideração
                         if (considera) {//se considera a posição
                             if (msgRedLis.get(j) == '1') {
                                 ctPar++;//adiciona um pro contador
                             }
                         }
-                        considera = !considera;//muda a consideração
                     }
                     if (considera) {//se considera a posição
                         if (msgRedLis.get(j) == '1') {
