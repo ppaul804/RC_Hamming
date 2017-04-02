@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author Pedro Paul
  */
 class Hamming {
+    private static int r;// Qantidade de bits necessários
     //LEMBRAR DE SEPARAR EM MÉTODOS PEQUENOS!
     /**
      * Método que elege as posicões de cada um dos bits de redundância colocando o caracter "r" neles.
@@ -20,12 +21,12 @@ class Hamming {
      */
     public static ArrayList<Character> bitRed(char[] msgOri) {
         int m = msgOri.length;// Quantidade de bits da mensagem original
-        int r = 0;// Quantidade de bits de redundância necessários
+        r = 0;// Quantidade de bits de redundância necessários
         boolean bitsSuf = false;// Tem bits sufucientes?
         
         while (bitsSuf == false) {
             r++;
-            bitsSuf = (Math.pow(2, r) >= m + r + 1);
+            bitsSuf = ((int) Math.pow(2, r) >= m + r + 1);
         }// fim while
                 
         
@@ -33,7 +34,7 @@ class Hamming {
         int iAux = msgOri.length - 1;
         int exp = 0;
         for (int i = 0; i < m + r; i++) {
-            if (i == Math.pow(2, exp)) {
+            if (i == (int) Math.pow(2, exp)) {
                 msgRedLis.add(i - 1, 'r');
                 exp++;
             } else {
@@ -54,6 +55,7 @@ class Hamming {
      * @param cabecalho Uma String para descrição.
      */
     private static void mostraArrayList(ArrayList<Character> itens, String cabecalho) {
+        System.out.println("");
         System.out.print(cabecalho);// exibe o cabeçalho
         // exibe cada elemento nos itens
         for (Character item : itens) 
@@ -63,43 +65,37 @@ class Hamming {
     public static ArrayList<Character> calPar(ArrayList<Character> msgRedLis) {
         
         //percorre a mensagem com os "r"
-        for (int i = 0; i < msgRedLis.size(); i++) {
-            System.out.println("no i -> "+i);
-            //se achar um "r"
-            if (msgRedLis.get(i) == 'r') {
-                System.out.println("que tem "+msgRedLis.get(i));
-                int ctPar = 0, ctIndice = 0;// declaração dos contadores
-                boolean considera = false;
-                System.out.println("no indice -> "+(int)(Math.pow(2, i)-1));
-                for (int indice = (int) (Math.pow(2, i)-1); indice < msgRedLis.size(); indice++) {
-
-                    if (ctIndice < Math.pow(2, indice)) {
-                        considera = true;
-                        ctIndice++;
-                        System.out.println("considera "+considera);
-                        System.out.println("ctIndice"+ctIndice);
-                    } else {
-                        considera = false;
-                        ctIndice = 0;
-                        System.out.println("considera "+considera);
-                        System.out.println("ctIndice"+ctIndice);
-                    }
-                    if (considera) {
-                        if (msgRedLis.get(indice) == '1') {
-                            ctPar++;
-                            System.out.println("ctPar "+ctPar);
+        for (int i = 0; i < r; i++) {// percorre o arraylist dependendo da quantidade de bits de redundância
+            int ctPar = 0;// quantos numeros 1 tem?
+            boolean considera = true;// considero a "casa"?
+            System.out.printf("\n");
+            for (int j = (int) Math.pow(2, i); j < msgRedLis.size(); j++) {//Percorre o arraylist apartir do bit de paridade
+                for (int ctJ = 1; ctJ < Math.pow(2, i); ctJ++) {//vai de zero até 2 elevado a i
+                    
+                    System.out.printf("(int) Math.pow(2, %d) %d\n",i-1 , (int) Math.pow(2, i-1));
+                    System.out.printf("%d == %d\n", ctJ, (int) Math.pow(2, i-1));
+//                    System.out.printf("ctJ == i %b\n", ctJ == i);
+                    System.out.printf("considera %b pos %d\n", considera,j);
+                    if (ctJ+1 <= (int) Math.pow(2, i-1)) {//se o contador for menor ou igual
+                        if (considera) {//se considera a posição
+                            if (msgRedLis.get(j) == '1') {
+                                ctPar++;//adiciona um pro contador
+                            }
                         }
+                        considera = !considera;//muda a consideração
                     }
-                }
-                System.out.println("resto de ctPar dividido por 2 é "+ctPar%2);
-                if (ctPar%2 == 0) {
-                    msgRedLis.set(i, 'p');
-                    System.out.println("par");
-                } else {
-                    msgRedLis.set(i, 'n');
-                    System.out.println("impar");
-                }
-            }//fim if
+                    if (considera) {//se considera a posição
+                        if (msgRedLis.get(j) == '1') {
+                            ctPar++;
+                        }
+                    }//ctj++;
+                }//fim for interno
+            }//fim for
+            if (ctPar%2 == 0) {
+                msgRedLis.set(i, 'p');// coloca 1
+            } else {
+                msgRedLis.set(i, 'n');// coloca 0
+            }
         }//fim for
         
         mostraArrayList(msgRedLis, "msgRedLis Modificado  = \n");
