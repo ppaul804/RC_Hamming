@@ -63,46 +63,52 @@ class Hamming {
         }
     }//fim método mostraArrayList
 
+    /**
+     * Faz o calculo de paridade em um arrayList com os bits de redundância
+     * 
+     * @param msgRedLis com os bit de redundancia
+     * @return ArrayList com os bit de redundancia certos
+     */
     public static ArrayList<Character> calPar(ArrayList<Character> msgRedLis) {
         
         //percorre a mensagem com os "r"
-        for (int r = 0; r < quaRed; r++) {// percorre o arraylist dependendo da quantidade de bits de redundância
+        for (int r = 0; r < quaRed; r++) {// percorre o arrayList dependendo da quantidade de bits de redundância
             
-            int ctPar = 0;// quantos numeros 1 tem?
-            boolean considera = false;// considero a "casa"?
+            int ctPar = 0;// quantos números 1 tem?
+            boolean considera = false;// considero a posição?
             System.out.printf("\n");
-            int potR = (int) Math.pow(2, r);
+            int potR = (int) Math.pow(2, r);//atalho para 2 elevado a r
             
             for (int i = potR-1; i < msgRedLis.size(); i++) {//Percorre o arraylist apartir do bit de paridade
                 
                 //Algoritmo de consideração
-                int ctI = i - potR + 2;
-                if (potR == 1) {
-                    considera = !considera;
-                } else{
-                    if (ctI % potR == 1)
-                        considera = !considera;
-                }
+                int ctI = i - potR + 2;//faz o indice sempre contar apartir de um
+                if (potR == 1) {//se 2 elevado a 0 for igual a um
+                    considera = !considera;//alterna o valor de considera
+                } else {
+                    if (ctI % potR == 1)//se o resto do indice (alterado) e 2 elevado a r for 1  
+                        considera = !considera;//altera o valor de considera
+                }//fim if else
                 
                 if (considera) {//se considera a posição
-                    if (msgRedLis.get(i) == '1')
-                        ctPar++;
+                    if (msgRedLis.get(i) == '1')//se achar um "1"
+                        ctPar++;//conta ele
                 
-                    System.out.printf(" %c i: %d ctI: %d considera: %b  \ttem um: %b ctPar: %d\n", 
-                            msgRedLis.get(i), 
-                            i, 
-                            ctI, 
-                            considera, 
-                            msgRedLis.get(i) == '1',
-                            ctPar);
-                }
-            }//fim for
-            if (ctPar % 2 == 0) {
+//                    System.out.printf(" %c i: %d ctI: %d considera: %b  \ttem um: %b ctPar: %d\n", 
+//                            msgRedLis.get(i), 
+//                            i, 
+//                            ctI, 
+//                            considera, 
+//                            msgRedLis.get(i) == '1',
+//                            ctPar);
+                }//fim if
+            }//fim for que percorre o arraylist apartir do bit de paridade
+            if (ctPar % 2 == 0) {//se o resto da divisão entre a quantidade de uns e 2 for 0
                 msgRedLis.set(potR-1, '0');// coloca 0
             } else {
                 msgRedLis.set(potR-1, '1');// coloca 1
             }
-        }//fim for
+        }//fim for que percorre o arrayList dependendo da quantidade de bits de redundância
         
         mostraArrayList(msgRedLis, "msgRedLis Modificado  = \n");
         
