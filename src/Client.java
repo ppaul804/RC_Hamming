@@ -65,7 +65,7 @@ class Client {
             skt.close();
         } catch (Exception e) {
             System.out.print("Ops! Não deu certo!\n");
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }
