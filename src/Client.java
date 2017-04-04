@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Client {
-
+    public static ArrayList<Character> bitRedLis = new ArrayList<>();
+    
     public static void main(String args[]) {
         try {
             System.out.println("Iniciando cliente.\nIniciando conexão com o servidor.");
@@ -35,23 +36,18 @@ class Client {
                 String msg = scanner.next("[01]+||[FIM]{3}");// Lê mensagem do teclado seguindo o padrão estabelecido
                 char[] msgOri = msg.toCharArray();// Transforma a mensagem em um vetor de caracteres
                 
-                //Mostra o vetor
-//                System.out.println("msgVet\tíndice");
-//                for (int i = 0; i < msgOri.length; i++) {
-//                    System.out.println(msgOri[i]+"\t"+i);
-//                }
-                
                 // 1º Identificar posição dos bits de redundância
                 ArrayList<Character> msgRedLis = Hamming.bitRed(msgOri);
-                // 2º Calcular a paridade do bit de redundância
-                ArrayList<Character> msgRedDef = Hamming.calPar(msgRedLis);
-                // 3º Determinar o bloco formado de bits de dados e os bits de paridade
+                // 2º Calcular a paridade do bit de redundância e 3º Determinar o bloco formado de bits de dados e os bits de paridade
+                ArrayList<Character> msgRedDef = Hamming.calPar(msgRedLis);// os bits de paridade são guardados num ArrayList chamado bitRedLis
                 
                 // No receptor repetir os passos anteriores para verificar os bits
+                msg = ArrayListToString(msgRedDef);
+//                msg = mudaBit(msg);
                 
                 out.println(msg);// Envia a mensagem ao servidor
 
-                if ("FIM".equals(msg)) {
+                if ("FI0M00".equals(msg)) {
                     break;
                 } else {
                     msg = in.readLine(); // aguarda a resposta do servidor
@@ -67,5 +63,21 @@ class Client {
             System.out.print("Ops! Não deu certo!\n");
             e.printStackTrace();
         }
+    }
+
+    private static String mudaBit(String msg) {
+        StringBuilder buffer;
+        buffer = new StringBuilder(msg);
+        buffer.setCharAt(4, '0');
+        msg = buffer.toString();
+        return msg;
+    }
+
+    public static String ArrayListToString(ArrayList<Character> list) {
+        String s = "";
+        for (int i = list.size()-1; i >= 0; i--) {
+            s = s + Character.toString(list.get(i));
+        }
+        return s;
     }
 }

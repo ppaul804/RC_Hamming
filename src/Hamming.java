@@ -11,7 +11,8 @@ import java.util.ArrayList;
  * @author Pedro Paul
  */
 class Hamming {
-    private static int quaRed;// Qantidade de bits necessários
+    public static ArrayList<Character> bitRedLis = new ArrayList<>();// lista com os bits de paridade
+    public static int quaRed;// Quantidade de bits necessários
     //LEMBRAR DE SEPARAR EM MÉTODOS PEQUENOS!
     /**
      * Método que elege as posicões de cada um dos bits de redundância colocando o caracter "r" neles.
@@ -43,7 +44,7 @@ class Hamming {
             }
         }// fim for
         
-        mostraArrayList(msgRedLis, "msgRedLis = \n");
+//        mostraArrayList(msgRedLis, "msgRedLis = \n");
         
         return msgRedLis;
     }// fim método bitRed
@@ -54,7 +55,7 @@ class Hamming {
      * @param itens O ArrayList de caracteres de entrada.
      * @param cabecalho Uma String para descrição.
      */
-    private static void mostraArrayList(ArrayList<Character> itens, String cabecalho) {
+    public static void mostraArrayList(ArrayList<Character> itens, String cabecalho) {
         System.out.println("");
         System.out.print(cabecalho);// exibe o cabeçalho
         // exibe cada elemento nos itens
@@ -93,27 +94,26 @@ class Hamming {
                 if (considera) {//se considera a posição
                     if (msgRedLis.get(i) == '1')//se achar um "1"
                         ctPar++;//conta ele
-                
-//                    System.out.printf(" %c i: %d ctI: %d considera: %b  \ttem um: %b ctPar: %d\n", 
-//                            msgRedLis.get(i), 
-//                            i, 
-//                            ctI, 
-//                            considera, 
-//                            msgRedLis.get(i) == '1',
-//                            ctPar);
                 }//fim if
             }//fim for que percorre o arraylist apartir do bit de paridade
             if (ctPar % 2 == 0) {//se o resto da divisão entre a quantidade de uns e 2 for 0
                 msgRedLis.set(potR-1, '0');// coloca 0
+                bitRedLis.add('0');
             } else {
                 msgRedLis.set(potR-1, '1');// coloca 1
+                bitRedLis.add('1');
             }
         }//fim for que percorre o arrayList dependendo da quantidade de bits de redundância
         
-        mostraArrayList(msgRedLis, "msgRedLis Modificado  = \n");
+//        mostraArrayList(msgRedLis, "msgRedLis Modificado: \n");
+//        mostraArrayList(bitRedLis, "bits de Redundância: \n");
         
         return msgRedLis;
         
     }//fim do método calPar
+    
+    public static ArrayList<Character> getBitRedLis() {
+        return bitRedLis;
+    }
 
 }// fim classe Hamming
