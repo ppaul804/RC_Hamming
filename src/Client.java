@@ -32,6 +32,9 @@ class Client {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Entre somente com números binarios ou digite \"FIM\" para encerrar a conexão.");
             while (true) {
+                if (!Hamming.bitRedLis.isEmpty()) {
+                    Hamming.bitRedLis.clear();
+                }
                 System.out.print("Digite: ");
                 String msg = scanner.next("[01]+||[FIM]{3}");// Lê mensagem do teclado seguindo o padrão estabelecido
                 char[] msgOri = msg.toCharArray();// Transforma a mensagem em um vetor de caracteres

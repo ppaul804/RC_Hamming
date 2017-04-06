@@ -35,6 +35,9 @@ class Server {
             //</editor-fold>
 
             while (true) {
+                if (!bitRedLis.isEmpty()) {
+                    bitRedLis.clear();
+                }
                 String msg = in.readLine();// Lê a mensagem enviada pelo cliente
                 System.out.println("Mensagem do cliente [" + skt.getInetAddress().getHostName() + "]: " + msg);// Imprime a mensagem
                 

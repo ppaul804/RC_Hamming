@@ -44,7 +44,7 @@ class Hamming {
             }
         }// fim for
         
-//        mostraArrayList(msgRedLis, "msgRedLis = \n");
+        mostraArrayList(msgRedLis, "msgRedLis = \n");
         
         return msgRedLis;
     }// fim método bitRed
@@ -105,8 +105,8 @@ class Hamming {
             }
         }//fim for que percorre o arrayList dependendo da quantidade de bits de redundância
         
-//        mostraArrayList(msgRedLis, "msgRedLis Modificado: \n");
-//        mostraArrayList(bitRedLis, "bits de Redundância: \n");
+        mostraArrayList(msgRedLis, "msgRedLis Modificado: \n");
+        mostraArrayList(bitRedLis, "bits de Redundância: \n");
         
         return msgRedLis;
         
